@@ -3,7 +3,10 @@ import { createWebHistory, createRouter } from "vue-router";
 const routes =  [
   {
     path: "/",
-    alias: "/characters",
+    redirect: '/characters',
+  },
+  {
+    path: "/characters",
     name: "characters",
     component: () => import("./components/characters/Characters")
   },
