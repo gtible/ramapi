@@ -2,16 +2,16 @@ import { createWebHistory, createRouter } from "vue-router";
 
 const routes =  [
   {
-    path: "/",
-    redirect: '/characters',
+    path: "/ramapi/",
+    redirect: '/ramapi/characters',
   },
   {
-    path: "/characters",
+    path: "/ramapi/characters",
     name: "characters",
     component: () => import("./components/characters/Characters")
   },
   {
-    path: "/characters/:id",
+    path: "/ramapi/characters/:id",
     name: "character",
     component: () => import("./components/character/Character"),
   },
