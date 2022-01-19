@@ -6,6 +6,10 @@ const routes =  [
     redirect: '/ramapi/characters',
   },
   {
+    path: "/characters",
+    redirect: '/ramapi/characters',
+  },
+  {
     path: "/ramapi/characters",
     name: "characters",
     component: () => import("./components/characters/Characters")
