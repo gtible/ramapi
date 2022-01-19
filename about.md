@@ -1,11 +1,11 @@
-# Rick & Morty project from Jellysmack front end test
+# Rick & Morty's API project
 
 ## Installation
 npm run install
 
-npm run start (localhost8080)
+npm run start 
 
-nom run build (for production)
+nom run build 
 
 npm run test (with cypress)
 
@@ -41,18 +41,11 @@ I wanted to use it but I had hard times to configure it. I had some problems wit
 ### Cypress
 Amazing test software. It was very fast to write some use cases and test them. I love this soft ;)
 
-## Accessibility
 
-## Best practices
-* DRY => refacto, create component
-* KISS => all business logic is treated in store
-* SOLID
-* TDD
-* DDD ?
-* Clean code
-* Sepration of concerns
 
 ## Beyond this project
 ### PWA, offline, localstorage, indexDB & Web workers
 I think, we can download all the datas to build an offline app. With web workers, it's possible to fetch the datas in background without freezing the UI. 
 ### Internationalization
+
+### Accessibility
