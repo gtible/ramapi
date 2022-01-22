@@ -1,7 +1,7 @@
 <template>
   <div class="allEpisodes">
       <div class="season">
-        <div class="season_title">Episodes</div> 
+        <div class="season_title">Ep</div> 
             <div v-for="i in range(1, 11)" :key="i" class="episodes">
                 <div class="episodeNumber episodeNumberLine">
                     {{i}}
@@ -10,7 +10,7 @@
         </div>  
 
       <div class="season">
-        <div class="season_title">Season 1</div> 
+        <div class="season_title">S1</div> 
             <div v-for="i in range(1, 11)" :key="i" class="episodes">
                 <div class="episode" :class="epColor(formatEpisodesDetails[i])">
                     
@@ -26,8 +26,8 @@
             </div>    
         </div>    
 
-          <div class="season">
-        <div class="season_title">Season 2</div> 
+    <div class="season">
+        <div class="season_title">S2</div> 
         <div v-for="i in range(12, 21)" :key="i" class="episodes">
             <div class="episode" :class="epColor(formatEpisodesDetails[i])">
                      <VTooltip v-if="formatEpisodesDetails[i] != null">
@@ -41,7 +41,7 @@
       </div>    
 
           <div class="season">
-        <div class="season_title">Season 3</div> 
+        <div class="season_title">S3</div> 
         <div v-for="i in range(22, 31)" :key="i" class="episodes">
             <div class="episode" :class="epColor(formatEpisodesDetails[i])">
                 
@@ -56,7 +56,7 @@
       </div>    
 
           <div class="season">
-        <div class="season_title">Season 4</div> 
+        <div class="season_title">S4</div> 
         <div v-for="i in range(32, 41)" :key="i" class="episodes">
             <div class="episode" :class="epColor(formatEpisodesDetails[i])">
                
@@ -71,7 +71,7 @@
       </div>    
 
           <div class="season">
-        <div class="season_title">Season 5</div> 
+        <div class="season_title">S5</div> 
         <div v-for="i in range(42, 51)" :key="i" class="episodes">
             <div class="episode" :class="epColor(formatEpisodesDetails[i])">
                     <VTooltip v-if="formatEpisodesDetails[i] != null">
@@ -108,8 +108,7 @@ export default {
             } else {
                 formatEpisodes[this.episodes.id] = this.episodes;
             }
-
-            
+       
             return formatEpisodes;
         }
     },
@@ -131,8 +130,9 @@ export default {
     border: 1px solid #03afc9;
     border-collapse: collapse;
     box-shadow: 0 0 5px #03AFC9;
-    margin: 0 5px 10px 20px;
-padding: 15px;
+    /* margin: 0 5px 10px 20px; */
+    padding: 10px;
+    width: fit-content;
 }
 
 .episodeNumber {
@@ -145,9 +145,10 @@ padding: 15px;
 }
 
 .season_title {
-    width: 70px;
-    float: left;
-    margin-right: 5px;
+    font-size: 12px;
+    width: 13px;
+    /* float: left;
+    margin-right: 5px; */
 }
 
 .episode {
@@ -179,5 +180,25 @@ padding: 15px;
 
 .success {
     background-color: green;
+}
+
+@media screen and (max-width: 575px)
+{
+    .episodeNumber {
+    /* display: inline-block; */
+    float: left;
+    height: 20px;
+    width:20px;
+    margin: 3px;
+    }
+
+    .episode {
+        /* display: inline-block; */
+        float: left;
+        height: 20px;
+        width:  20px;
+        background-color: grey;
+        margin: 3px;
+    }
 }
 </style>

@@ -1,15 +1,14 @@
 <template>
-    <div class="card">
+    <div>
+        <router-link :to="{ name: 'character', params: { id: id }}">
+            <div class="card">
         <img :src="src" class="card-img-top" :alt="alt">
         <div class="card-body">
-            <h5 class="card-title">{{title}}</h5>
-            <p class="card-text badge statusLabel" :class="className" >{{status}} </p>
-
-            <router-link class="btn btn-primary linkToCharacterDetails" 
-                :to="{ name: 'character', params: { id: id }}">
-                details +
-            </router-link>
+            <h5 v-font-size class="card-title">{{title}}</h5>
+            <p class="card-text badge statusLabel" :class="className" >{{status}} </p>  
         </div>
+         </div>
+        </router-link>
     </div>
 </template>
 
@@ -23,6 +22,19 @@ export default {
         title:String,
         className:String,
         status:String,  
+    },
+    created () {
+        window.addEventListener('scroll', this.onScroll);
+        
+    },
+    unmounted () {
+        window.removeEventListener('scroll', this.onScroll);
+    },
+    methods: {
+        onScroll () {
+        // add/remove class
+        
+        }
     }
 }
 </script>
@@ -42,7 +54,8 @@ export default {
     background: var(--theme-page-background-color-secondary);
     border: 1px solid #03afc9;
     border-collapse: collapse;
-    margin: 0 5px 10px 20px;
+    margin: 0 0 10px 20px;
+    border-bottom-right-radius: 10%;
 }
 
 .card:hover {
@@ -55,7 +68,34 @@ export default {
 
 .card-title {
     min-height: 80px;
+    color: black;
      /* font-family: "RickAndMorty", Helvetica, Arial; */
+}
+
+@media screen and (max-width: 575px)
+{
+    /* Rédigez vos propriétés CSS ici */
+    .linkToCharacterDetails {
+        display: none;
+    }
+
+    .card {
+        transition: all linear .5s
+    }
+
+    .card-title {
+        text-align: center;
+        font-size: 15px;
+        min-height: 25px;
+    }
+
+    .card-body {
+        padding: 5px;
+    }
+
+    .statusLabel {
+        text-align: center;
+    }
 }
 
 </style>

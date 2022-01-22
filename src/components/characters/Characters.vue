@@ -3,7 +3,8 @@
       <div id="titleAndFilters">
           <h1 id="charactersListTitle" >Rick & Morty Characters</h1>
 
-          <span id="searchBar" @click="showInputSearchFn()">
+            <div id="searchAndFilters">
+                <div id="searchBar" @click="showInputSearchFn()">
 
             <span class="searchTitle">
                  <font-awesome-icon icon="search" /> Search :
@@ -22,31 +23,36 @@
  
              <span  class="keyPress">F</span>
              <span  class="keyPress">CTRL</span>
-            </span>
+            </div>
 
-            <span class="filters" v-for="checkItem in filterOptions" :key="checkItem.id">
-                <Checkbox
-                    :id="checkItem.name+'Checkbox'" 
-                    :name="checkItem.id"
-                    :value="checkItem.name"
-                    :checked="checkItem.checked"
-                    @click="emitChange(checkItem)"
-                    :className="checkItem.class"
-                    :label="checkItem.name"
-                />
-            </span>
+            <div >
+                <span class="filters" v-for="checkItem in filterOptions" :key="checkItem.id">
+                    <Checkbox
+                        :id="checkItem.name+'Checkbox'" 
+                        :name="checkItem.id"
+                        :value="checkItem.name"
+                        :checked="checkItem.checked"
+                        @click="emitChange(checkItem)"
+                        :className="checkItem.class"
+                        :label="checkItem.name"
+                    />
+                </span>
 
-            <h5 v-if="info.count > 1 && req_status == 200">There are {{info.count}} characters with this search</h5>
-            <h5 v-if="info.count == 1 && req_status == 200">There is only one character with this search</h5>
-
+                <h5 v-if="info.count > 1 && req_status == 200" class="countMesg">There are {{info.count}} characters with this search</h5>
+                <h5 v-if="info.count == 1 && req_status == 200" class="countMesg">There is only one character with this search</h5>
+            </div>
+            </div>    
+            
         </div>
         
         <main role="main">
-        <div v-if="!isCharactersListLoading" id="cardList">
+        <div v-if="!isCharactersListLoading" id="cardList" >
+            <div id="opacityDiv" :class="{'opacityDivTransition': scrolled}"></div>
             <div v-if="req_status == 200" class="row cardCharacter justify-content-start">
-                <div class="col" v-for="character in characters" :key="character.id">
-                    <section>
+                <div  v-for="character in characters" :key="character.id">
+                    
                     <CharactersListCard
+                        
                         :id="character.id"
                         :src="character.image"
                         :alt="character.name"
@@ -54,7 +60,7 @@
                         :className="statusColorFn(character.status)"
                         :status="character.status"
                     />
-                    </section>
+                   
                 </div>
             </div>
             <div v-if="pagination.pages > 1" class="row justify-content-md-center">
@@ -137,7 +143,8 @@ export default defineComponent({
                 status: "" as String,
             } as object,
             page: 1,
-            showInputSearch: false
+            showInputSearch: false,
+            scrolled: false,
         }
     },
     mounted() {
@@ -162,6 +169,12 @@ export default defineComponent({
                 })
             }
         });
+
+        console.log('window.innerWidt', window.innerWidth);
+        window.innerWidth < 575 ? this.displayedOnMobile = true : this.displayedOnMobile = false;
+    },
+    update() {
+        window.innerWidth < 575 ? this.displayedOnMobile = true : this.displayedOnMobile = false;
     },
     computed: {
         ...mapState(['characters', 'info', 'req_status', 'isCharactersListLoading', 'status']),
@@ -179,7 +192,16 @@ export default defineComponent({
             },
         },
     },
+    created: function() {
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    unmounted: function() {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
     methods: {
+        handleScroll: function() {
+            this.scrolled = window.scrollY > 100;
+        },
         ...mapActions(["getSearchResults"]),
         showInputSearchFn(){
             this.showInputSearch = true;
@@ -225,7 +247,17 @@ export default defineComponent({
             if (status === 'alive' || status === 'dead')
                 status = status.charAt(0).toUpperCase() + status.slice(1);
             return this.statusColor[status];
-        }
+        },
+        // handleScroll: function (evt:any, el:any) {
+        //     console.log('handleScroll');
+        //     if (window.scrollY > 50) {
+        //         el.setAttribute(
+        //         'style',
+        //         'opacity: 1; transform: translate3d(0, -10px, 0)'
+        //         )
+        //     }
+        //     return window.scrollY > 100
+        //     }
     },
 })
 </script>
@@ -233,12 +265,15 @@ export default defineComponent({
 <style scoped>
 #titleAndFilters {
     text-align: center;
+    margin-top: 100px;
+    
 }
 
 #charactersListTitle {
     margin-top: 15px;
     text-align: center;
     font-family: "RickAndMorty", Helvetica, Arial;
+    display: block;
 }
 
 #searchBar {
@@ -286,10 +321,92 @@ export default defineComponent({
     margin-bottom: 20px;
 }
 
-#keyPress {
+.keyPress {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
+}
+
+
+@media screen and (max-width: 575px)
+{
+    /* Rédigez vos propriétés CSS ici */
+    #charactersListTitle {
+        display: none
+    }
+
+    #titleAndFilters {
+        text-align: center;
+        margin-top: 75px;
+    }
+
+    /* #searchAndFilters {
+        position: -webkit-sticky;
+        position: sticky;
+        height:5Opx;
+        top: 0;
+    } */
+
+    #searchAndFilters {
+        background-color: white;
+        overflow: hidden;
+        position: fixed; 
+        top: 76px; 
+        width: 100%; 
+        z-index: 3;
+    }
+
+    .countMesg  {
+        font-size: 12px;
+    }
+
+    #search {
+        width: 250px; 
+    }
+
+    .keyPress {
+        display: none;
+    }
+
+    #cardList {
+         background-color: white;
+        
+        position: relative; 
+        top: 120px; 
+        width: 100%; 
+        z-index:1;
+    }
+
+    /* .hidden  div.card:nth-child(-n + 2) {
+        color: orange;
+        opacity: 0.3
+    } */
+
+    .cardCharacter {
+        z-index: 2;
+    }
+
+    .hidden {
+        background: linear-gradient(to bottom,  rgb(214, 89, 89) 0%, rgba(233, 233, 233, 0) 100%);
+         z-index: 1;
+    }
+
+    /* #opacityDiv {
+         z-index: 4;
+        width: 100%;
+        height: 150px;
+        position: absolute;
+        background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); 
+    } */
+
+    .opacityDivTransition {
+        z-index: 4;
+        width: 100%;
+        height: 150px;
+        position: fixed;
+        top:185px;
+        background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); 
+    }
 }
 
 </style>

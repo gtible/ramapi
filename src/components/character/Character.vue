@@ -1,6 +1,6 @@
 
 <template>
-    <div class="container-fluid">
+    <div id="characterPage" class="container-fluid">
         <button id="backButtonToCharactersList">
             <router-link to="/characters" class="nav-link">
                 <i class="bi-arrow-left-square"></i> Back to Characters List
@@ -127,6 +127,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+#characterPage {
+    margin-top: 75px;
+}
+
 #backButtonToCharactersList {
     margin-top: 15px;
 }
@@ -180,7 +184,7 @@ img {
     border: 1px solid #03afc9;
     border-collapse: collapse;
     box-shadow: 0 0 5px #03AFC9;
-    margin: 0 5px 10px 20px;
+    /* margin: 0 5px 10px 20px; */
 }
 
 .labelInfo {

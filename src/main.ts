@@ -16,7 +16,28 @@ import 'floating-vue/dist/style.css'
 
 library.add(faSearch);
 
-createApp(App).component("font-awesome-icon", FontAwesomeIcon)
+const app = createApp(App);
+
+app.directive("font-size", {
+    beforeMount: (el:any, binding:any) => {
+      el.style.fontSize = 20 + "px";
+    },
+    updated: (el:any, binding:any) => {
+      el.style.fontSize = 20 + "px";
+    },
+  });
+
+  app.directive('scroll', {
+    beforeMount: (el:any, binding:any) => {
+        el.style.fontSize = 20 + "px";
+      },
+      updated: (el:any, binding:any) => {
+        el.style.fontSize = 20 + "px";
+      },
+  })
+
+
+app.component("font-awesome-icon", FontAwesomeIcon)
     .use(store)
     .use(router)
     .use(FloatingVue)

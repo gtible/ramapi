@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <nav class="nav navbar navbar-expand navbar-dark bg-dark">
+  <div >
+    <nav id="header" class="nav navbar navbar-expand navbar-dark bg-dark">
       <router-link to="/characters" class="navbar-brand">
         <img class="RMLogo" src="https://img.icons8.com/plasticine/100/000000/rick-sanchez.png"/>
         <img id="RMLogoText" src="@/assets/rmLogo.png"/>
@@ -62,6 +62,12 @@ export default {
 
 }
 
+.container {
+
+      /* background:  url('./assets/univers.jpg') */
+
+}
+
 .RMLogo {
   width: 50px;
 }
@@ -83,6 +89,28 @@ export default {
 #audioRun {
   color:white;
   float: right;
+}
+
+#header {
+  overflow: hidden;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  z-index: 3;
+}
+
+
+
+@media screen and (max-width: 575px)
+{
+    /* Rédigez vos propriétés CSS ici */
+   #header {
+  overflow: hidden;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  z-index: 3;
+}
 }
 
 </style>
