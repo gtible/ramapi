@@ -39,8 +39,8 @@
                         <h5 class="col-12 card-title">Meta information</h5>
                             <p v-if="character.episode" id="episodesInfoLabel" class="col-6 card-text labelInfo"><i class="bi-film"></i> episodes : </p>
                             <p id="episodesInfo" class="col-6 card-text"> {{characterInfoFormat(character.episode.length)}} 
-                                <span v-if="character.episode.length > 1" id="seeAllEpisodes" class="badge badge-info" @click="showEpidodesDetails(character)">see all</span>
-                                <span v-if="character.episode.length == 1" id="seeAllEpisodes" class="badge badge-info" @click="showEpidodesDetails(character)">see it</span>
+                                <span v-if="character.episode.length > 1" id="seeAllEpisodes" class="badge badge-info" @click="showEpiodesDetails(character)">see all</span>
+                                <span v-if="character.episode.length == 1" id="seeAllEpisodes" class="badge badge-info" @click="showEpiodesDetails(character)">see it</span>
                             </p> 
                             <p id="createdInfoLabel" class="col-6 card-text labelInfo"><i class="bi-watch"></i> created :</p>
                             <p id="createdInfo" class="col-6 card-text">{{getDate(character.created)}} </p>
@@ -52,8 +52,16 @@
             <div class="row justify-content-md-center">
                  <transition name="bounce">
                     <div v-if="epidodesDetailsDone && show" class="col-md-6 col-sm-12">
-                        <h4 id="episodesDiagTitle">Episodes where {{character.name}} appears </h4>
+                        <h4 id="episodesDiagTitle">Episodes where <span id="characterNameDiag">{{character.name}}</span> appears </h4>
                         <CharacterEpisodesDiag :episodes="episodesDetails"/>
+                    </div>
+                 </transition>
+            </div>
+             <div class="row">
+            <transition name="bounce">
+                    <div v-if="episodeCharacters.length > 0 && showEpisodeCharacters" class="col">
+                        <h4 >All charaters whose appear in episode <span id="episodeTrombi">{{episodeSelected.name}}</span> ({{episodeSelected.episode}})</h4>
+                        <EpisodeCharacters :characters="episodeCharacters"/>
                     </div>
                  </transition>
             </div>
@@ -69,6 +77,7 @@ import { defineComponent } from "vue";
 import { mapState } from 'vuex';
 import CharacterCardSkeleton from './CharacterCardSkeleton.vue';
 import CharacterEpisodesDiag from './CharacterEpisodesDiag.vue';
+import EpisodeCharacters from './EpisodeCharacters.vue';
 
 
 export default defineComponent({
@@ -76,6 +85,7 @@ export default defineComponent({
     components: {
         CharacterCardSkeleton,
         CharacterEpisodesDiag,
+        EpisodeCharacters,
     },
     data() {
         return {
@@ -84,13 +94,20 @@ export default defineComponent({
         }
     },
     computed: {
-        ...mapState(['character', 'isCharacterLoading', 'episodesDetails', 'epidodesDetailsDone']),
+        ...mapState([
+            'character', 
+            'isCharacterLoading', 
+            'episodesDetails', 
+            'epidodesDetailsDone', 
+            'episodeCharacters',
+            'episodeSelected',
+            'showEpisodeCharacters'
+        ]),
     },
     mounted() {
         this.$store.dispatch("loadCharacter", this.$route.params.id);
     },
     activated() {
-        console.log('updated');
         this.showComponent = true;
     },
     unmounted() {
@@ -109,7 +126,7 @@ export default defineComponent({
         characterInfoFormat(info:String) {
             return info != "" ? info : "not specified"
         },
-        showEpidodesDetails(character:any) {
+        showEpiodesDetails(character:any) {
             this.show = true;
             
             let episodesList = "";
@@ -120,6 +137,7 @@ export default defineComponent({
             
             episodesList = episodesList.slice(0, -1)
             
+            this.$store.dispatch('showEpisodeCharacters', false)
             this.$store.dispatch('getEpisodesDetails', episodesList)
         },
     }
@@ -200,6 +218,11 @@ img {
 #seeAllEpisodes {
   animation: bounce2 2s ease infinite;
 }
+
+/* #characterNameDiag, #episodeTrombi {
+    font-family: "RickAndMorty", Helvetica, Arial;
+} */
+
 
 @keyframes bounce2 {
 	0%, 20%, 50%, 80%, 100% {transform: translateY(0);}

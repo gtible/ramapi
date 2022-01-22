@@ -170,11 +170,7 @@ export default defineComponent({
             }
         });
 
-        console.log('window.innerWidt', window.innerWidth);
-        window.innerWidth < 575 ? this.displayedOnMobile = true : this.displayedOnMobile = false;
-    },
-    update() {
-        window.innerWidth < 575 ? this.displayedOnMobile = true : this.displayedOnMobile = false;
+        
     },
     computed: {
         ...mapState(['characters', 'info', 'req_status', 'isCharactersListLoading', 'status']),
@@ -247,17 +243,7 @@ export default defineComponent({
             if (status === 'alive' || status === 'dead')
                 status = status.charAt(0).toUpperCase() + status.slice(1);
             return this.statusColor[status];
-        },
-        // handleScroll: function (evt:any, el:any) {
-        //     console.log('handleScroll');
-        //     if (window.scrollY > 50) {
-        //         el.setAttribute(
-        //         'style',
-        //         'opacity: 1; transform: translate3d(0, -10px, 0)'
-        //         )
-        //     }
-        //     return window.scrollY > 100
-        //     }
+        }
     },
 })
 </script>

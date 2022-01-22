@@ -1,7 +1,7 @@
 <template>
     <div>
         <router-link :to="{ name: 'character', params: { id: id }}">
-            <div class="card">
+            <div class="card" @click="initCharacterPage()">
         <img :src="src" class="card-img-top" :alt="alt">
         <div class="card-body">
             <h5 v-font-size class="card-title">{{title}}</h5>
@@ -21,7 +21,12 @@ export default {
         alt:String,
         title:String,
         className:String,
-        status:String,  
+        status: {
+            type: String,
+            validator(value:string) {
+                return ['alive', 'dead', 'unknown'].includes(value)
+            }
+        }  
     },
     created () {
         window.addEventListener('scroll', this.onScroll);
@@ -34,6 +39,9 @@ export default {
         onScroll () {
         // add/remove class
         
+        },
+        initCharacterPage() {
+            this.$store.dispatch('showEpisodeCharacters', false);
         }
     }
 }

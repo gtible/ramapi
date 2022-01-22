@@ -2,10 +2,23 @@ import { createStore } from "vuex";
 import axios from 'axios'
 import { Character, CharacterFilter } from '../models/interfaces'
 
+function extractEpisodesNumberFromCharacter(character: Character) {
+    let episodesList = "";
+
+    character.episode.forEach((element:string) => {
+        episodesList += element.replace(/\D/g, "")+',';
+    });
+    
+    episodesList = episodesList.slice(0, -1)
+
+    return episodesList;
+}
+
 //to handle state
 const state = {
     character: {} as Character,
     characters: [] as Character[] ,
+    episodeCharacters: [] as Character[] ,
     info: {},
     query: {},
     activeFilters: [],
@@ -16,6 +29,8 @@ const state = {
     epidodesDetailsDone: false,
     search: "",
     status: "",
+    episodeSelected: {},
+    showEpisodeCharacters: false
 }
 
 //to handle state
@@ -148,6 +163,29 @@ const actions = {
                     commit('SET_REQ_STATUS', 503)
             }) 
     },
+    getEpisodeCharacters({commit}:any, episodes:string) {
+        axios.get(
+            `https://rickandmortyapi.com/api/character/${episodes}`)
+            .then(response => response.data)
+            .then(episodeCharacters => {
+                commit('SET_EPISODE_CHARACTERS', episodeCharacters)
+            }).catch(err => {
+                if (err == "Error: Request failed with status code 404")
+                    commit('SET_REQ_STATUS', 404)
+                else
+                    commit('SET_REQ_STATUS', 503)
+            }) 
+    },
+    setEpisodeSelected({commit}:any, episode:any) {
+        commit('SET_EPISODE_SELECTED', episode)
+    },
+    setCharacter({commit}:any, character:Character) {
+        commit('SET_CHARACTER', character)
+        this.dispatch('getEpisodesDetails', extractEpisodesNumberFromCharacter(character))
+    },
+    showEpisodeCharacters({commit}:any, show:boolean) {
+        commit('SET_SHOW_EPISODE_CHARACTERS', show)
+    }
 }
 
 //to handle mutations
@@ -185,6 +223,15 @@ const mutations = {
     SET_STATUS(state:any, status:string) {
         state.status = status;
     },
+    SET_EPISODE_CHARACTERS(state:any, characters:Character[]) {
+        state.episodeCharacters = characters;
+    },
+    SET_EPISODE_SELECTED(state:any, episode:any) {
+        state.episodeSelected = episode;
+    },
+    SET_SHOW_EPISODE_CHARACTERS(state:any, show:boolean) {
+        state.showEpisodeCharacters = show;
+    }
 }
 
 //export store module
