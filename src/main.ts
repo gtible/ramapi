@@ -1,44 +1,14 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import Vuex from 'vuex'
-import router from './router'
-import store from './store'
-import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import FloatingVue from 'floating-vue'
-import 'floating-vue/dist/style.css'
-
-
-library.add(faSearch);
+import FloatingVue from "floating-vue";
+import "floating-vue/dist/style.css";
 
 const app = createApp(App);
 
-app.directive("font-size", {
-    beforeMount: (el:any, binding:any) => {
-      el.style.fontSize = 20 + "px";
-    },
-    updated: (el:any, binding:any) => {
-      el.style.fontSize = 20 + "px";
-    },
-  });
-
-  app.directive('scroll', {
-    beforeMount: (el:any, binding:any) => {
-        el.style.fontSize = 20 + "px";
-      },
-      updated: (el:any, binding:any) => {
-        el.style.fontSize = 20 + "px";
-      },
-  })
-
-
-app.component("font-awesome-icon", FontAwesomeIcon)
-    .use(store)
-    .use(router)
-    .use(FloatingVue)
-    .mount('#app')
+app.use(store).use(router).use(FloatingVue).mount("#app");
