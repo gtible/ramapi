@@ -22,7 +22,12 @@ function buildListWithNumberInURL(array: Array<string>) {
   return list;
 }
 
-//to handle state
+function errorCatching(commit: Commit, err: Error) {
+  if (err.toString() === "Error: Request failed with status code 404")
+    commit("SET_REQ_STATUS", 404);
+  else commit("SET_REQ_STATUS", 503);
+}
+
 const state = {
   character: {} as Character,
   characters: [] as Character[],
@@ -41,7 +46,6 @@ const state = {
   showEpisodeCharacters: false,
 };
 
-//to handle state
 const getters = {
   characters(state: State) {
     return state.characters;
@@ -82,9 +86,7 @@ const actions = {
           commit("SET_REQ_STATUS", characters.status);
         })
         .catch((err) => {
-          if (err === "Error: Request failed with status code 404")
-            commit("SET_REQ_STATUS", 404);
-          else commit("SET_REQ_STATUS", 503);
+          errorCatching(commit, err);
         });
     }
     commit("SET_CHARACTERS_LOADING", false);
@@ -92,9 +94,7 @@ const actions = {
   async loadCharacter({ commit }: { commit: Commit }, payload: string) {
     await axios
       .get(`https://rickandmortyapi.com/api/character/${parseInt(payload)}`)
-      .then((response) => {
-        return response;
-      })
+      .then((response) => response)
       .then((character) => {
         commit("SET_CHARACTER", character.data);
         commit("SET_EPISODES_DETAILS", []);
@@ -102,9 +102,7 @@ const actions = {
         commit("SET_CHARACTER_LOADING", false);
       })
       .catch((err) => {
-        if (err === "Error: Request failed with status code 404")
-          commit("SET_REQ_STATUS", 404);
-        else commit("SET_REQ_STATUS", 503);
+        errorCatching(commit, err);
       });
   },
   async getSearchResults(
@@ -130,9 +128,7 @@ const actions = {
         }
       })
       .catch((err) => {
-        if (err === "Error: Request failed with status code 404")
-          commit("SET_REQ_STATUS", 404);
-        else commit("SET_REQ_STATUS", 503);
+        errorCatching(commit, err);
       });
   },
   getPageResults({ commit }: { commit: Commit }, query: CharacterFilter) {
@@ -144,9 +140,7 @@ const actions = {
         commit("SET_INFO", characters.data.info);
       })
       .catch((err) => {
-        if (err === "Error: Request failed with status code 404")
-          commit("SET_REQ_STATUS", 404);
-        else commit("SET_REQ_STATUS", 503);
+        errorCatching(commit, err);
       });
   },
   getEpisodesDetails({ commit }: { commit: Commit }, character: Character) {
@@ -160,19 +154,11 @@ const actions = {
         commit("SET_EPISODES_DETAILS_DONE", true);
       })
       .catch((err) => {
-        if (err === "Error: Request failed with status code 404")
-          commit("SET_REQ_STATUS", 404);
-        else commit("SET_REQ_STATUS", 503);
+        errorCatching(commit, err);
       });
   },
   getEpisodeCharacters({ commit }: { commit: Commit }, episode: Episode) {
-    let charactersList = "";
-
-    episode.characters.forEach((element: string) => {
-      charactersList += element.replace(/\D/g, "") + ",";
-    });
-
-    charactersList = charactersList.slice(0, -1);
+    const charactersList: string = buildListWithNumberInURL(episode.characters);
 
     axios
       .get(`https://rickandmortyapi.com/api/character/${charactersList}`)
@@ -181,9 +167,7 @@ const actions = {
         commit("SET_EPISODE_CHARACTERS", episodeCharacters);
       })
       .catch((err) => {
-        if (err === "Error: Request failed with status code 404")
-          commit("SET_REQ_STATUS", 404);
-        else commit("SET_REQ_STATUS", 503);
+        errorCatching(commit, err);
       });
   },
   setEpisodeSelected({ commit }: { commit: Commit }, episode: Episode) {

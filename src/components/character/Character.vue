@@ -88,15 +88,15 @@
                 id="seeAllEpisodes"
                 class="badge badge-info"
                 @click="showEpiodesDetails(character)"
-                >see all</span
-              >
+                >see all <i class="bi-arrow-down-circle-fill"></i
+              ></span>
               <span
                 v-if="character.episode.length === 1"
                 id="seeAllEpisodes"
                 class="badge badge-info"
                 @click="showEpiodesDetails(character)"
-                >see it</span
-              >
+                >see it <i class="bi-arrow-down-circle-fill"></i
+              ></span>
             </p>
             <p id="createdInfoLabel" class="col-6 card-text labelInfo">
               <i class="bi-watch"></i> created :
@@ -140,16 +140,11 @@
       </div>
     </div>
   </div>
-  <div v-if="isCharacterLoading">
+  <div v-if="isCharacterLoading && req_status !== 404">
     <CharacterCardSkeleton />
   </div>
-  <div v-if="req_status === 404" id="#error404">
-    There is nothing here for
-    <img src="../../assets/404.jpg" class="card-img-top" />
-  </div>
-  <div v-if="req_status === 503" id="#error503">
-    There is a problem with the network, please check your connection.
-    <img src="../../assets/503.png" class="card-img-top" />
+  <div>
+    <NetworkErrors :req_status="req_status" />
   </div>
 </template>
 
@@ -160,6 +155,7 @@ import CharacterCardSkeleton from "./CharacterCardSkeleton.vue";
 import CharacterEpisodesDiag from "./CharacterEpisodesDiag.vue";
 import EpisodeCharacters from "./EpisodeCharacters.vue";
 import { Character } from "../../models/interfaces";
+import utils from "../../utils/utils";
 
 export default defineComponent({
   name: "Character",
@@ -197,13 +193,7 @@ export default defineComponent({
   },
   methods: {
     getDate(date: Date) {
-      var dateObj = new Date(date);
-      var month = dateObj.getUTCMonth() + 1;
-      var day = dateObj.getUTCDate();
-      var year = dateObj.getUTCFullYear();
-
-      const newdate = year + "/" + month + "/" + day;
-      return newdate;
+      return utils.formatDate(date);
     },
     characterInfoFormat(info: string) {
       return info !== "" ? info : "not specified";
@@ -286,7 +276,7 @@ img {
 }
 
 #seeAllEpisodes {
-  animation: bounce2 2s ease infinite;
+  /* animation: bounce2 2s ease infinite; */
 }
 
 @keyframes bounce2 {

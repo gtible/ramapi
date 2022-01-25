@@ -83,22 +83,13 @@
     <div v-if="isCharactersListLoading">
       <CharactersListSkeleton />
     </div>
-
-    <div v-if="req_status === 404" id="#error404">
-      There is nothing here for
-      <span id="searchError" class="badge badge-info">{{ this.search }} </span>
-      <span v-if="this.query.status != ''">
-        with status
-        <span class="badge" :class="statusColorFn(this.query.status)">
-          {{ this.query.status }}
-        </span>
-      </span>
-      <img src="../../assets/404.jpg" class="card-img-top" />
-    </div>
-
-    <div v-if="req_status === 503" id="#error503">
-      There is a problem with the network, please check your connection.
-      <img src="../../assets/503.png" class="card-img-top" />
+    <div>
+      <NetworkErrors
+        :req_status="req_status"
+        :search="this.search"
+        :status="this.query.status"
+        :classStatusColor="statusColorFn(this.query.status)"
+      />
     </div>
   </div>
 </template>
@@ -107,6 +98,7 @@
 import { defineComponent } from "vue";
 import { mapState, mapActions } from "vuex";
 import Checkbox from "../Checkbox.vue";
+import NetworkErrors from "../NetworkErrors.vue";
 import CharactersListCard from "./CharactersListCard.vue";
 import CharactersListSkeleton from "./CharactersListSkeleton.vue";
 import VPagination from "@hennge/vue3-pagination";
@@ -124,6 +116,7 @@ export default defineComponent({
     VPagination,
     CharactersListSkeleton,
     Checkbox,
+    NetworkErrors,
     CharactersListCard,
   },
   data() {
@@ -167,7 +160,6 @@ export default defineComponent({
   mounted() {
     this.$store.dispatch("loadData");
     this.$nextTick(() => {
-      // update input and filters with state values
       this.search = this.$store.getters.search;
 
       this.filterOptions.forEach((filter: Filters) => {
@@ -351,7 +343,6 @@ export default defineComponent({
 
   #cardList {
     background-color: white;
-
     position: relative;
     top: 120px;
     width: 100%;

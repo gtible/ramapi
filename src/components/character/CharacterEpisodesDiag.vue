@@ -18,7 +18,7 @@
           @click="getAllCharactersInEpisode(formatEpisodesDetails[i])"
         >
           <VTooltip v-if="formatEpisodesDetails[i] != null">
-            <a class="episodeNumber">ep{{ i }}</a>
+            <a class="episodeNumber">e{{ i }}</a>
             <template #popper>
               <span>{{ formatEpisodesDetails[i].name }}</span>
             </template>
@@ -36,7 +36,7 @@
           @click="getAllCharactersInEpisode(formatEpisodesDetails[i])"
         >
           <VTooltip v-if="formatEpisodesDetails[i] != null">
-            <a class="episodeNumber">ep{{ i }}</a>
+            <a class="episodeNumber">e{{ i }}</a>
             <template #popper>
               <span>{{ formatEpisodesDetails[i].name }}</span>
             </template>
@@ -54,7 +54,7 @@
           @click="getAllCharactersInEpisode(formatEpisodesDetails[i])"
         >
           <VTooltip v-if="formatEpisodesDetails[i] != null">
-            <a class="episodeNumber">ep{{ i }}</a>
+            <a class="episodeNumber">e{{ i }}</a>
             <template #popper>
               <span>{{ formatEpisodesDetails[i].name }}</span>
             </template>
@@ -72,7 +72,7 @@
           @click="getAllCharactersInEpisode(formatEpisodesDetails[i])"
         >
           <VTooltip v-if="formatEpisodesDetails[i] != null">
-            <a class="episodeNumber">ep{{ i }}</a>
+            <a class="episodeNumber">e{{ i }}</a>
             <template #popper>
               <span>{{ formatEpisodesDetails[i].name }}</span>
             </template>
@@ -90,7 +90,7 @@
           @click="getAllCharactersInEpisode(formatEpisodesDetails[i])"
         >
           <VTooltip v-if="formatEpisodesDetails[i] != null">
-            <a class="episodeNumber">ep{{ i }}</a>
+            <a class="episodeNumber">e{{ i }}</a>
             <template #popper>
               <span>{{ formatEpisodesDetails[i].name }}</span>
             </template>
@@ -157,6 +157,7 @@ export default {
 .episodeNumber {
   font-size: 10px;
   text-align: center;
+  color: black;
 }
 
 .season {
@@ -182,6 +183,7 @@ export default {
 
 .episode {
   background-color: grey;
+  color: black;
 }
 
 .episode:hover {
@@ -203,6 +205,11 @@ export default {
 
   .episode {
     background-color: grey;
+  }
+
+  .episode .episodeNumber {
+    font-size: 9px;
+    text-align: start;
   }
 
   .success {

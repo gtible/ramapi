@@ -28,6 +28,12 @@ export default {
   methods: {
     setCharacter(character) {
       this.$store.dispatch("setCharacter", character);
+      this.$nextTick(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
     },
   },
 };

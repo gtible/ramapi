@@ -3,11 +3,11 @@
     <router-link :to="{ name: 'character', params: { id: id } }">
       <div class="card" @click="initCharacterPage()">
         <img :src="src" class="card-img-top" :alt="alt" />
-        <div class="card-body">
-          <h5 class="card-title">{{ title }}</h5>
+        <div class="card-body-custom">
           <p class="card-text badge statusLabel" :class="className">
             {{ status }}
           </p>
+          <p class="card-title">{{ title }}</p>
         </div>
       </div>
     </router-link>
@@ -44,31 +44,37 @@ export default {
   margin-left: auto;
   margin-right: auto;
   border-radius: 4px;
-  padding: 5px;
-  width: 150px;
+
+  /* padding: 5px; */
+  /* width: 150px; */
 }
 
 .card {
   max-width: 10rem;
-  background: var(--theme-page-background-color-secondary);
+  background-color: rgb(214, 208, 208);
+  /* background: var(--theme-page-background-color-secondary);
   border: 1px solid #03afc9;
-  border-collapse: collapse;
+  border-collapse: collapse; */
   margin: 0 0 10px 20px;
-  border-bottom-right-radius: 10%;
+  /* border-bottom-right-radius: 10%; */
 }
 
-.card:hover {
+/* .card:hover {
   box-shadow: 0 0 5px #03afc9;
-}
+} */
 
 .cardCharacter {
   margin: 5px;
 }
 
 .card-title {
-  min-height: 80px;
+  min-height: 50px;
   color: black;
   /* font-family: "RickAndMorty", Helvetica, Arial; */
+}
+
+.card-body-custom {
+  padding: 5px;
 }
 
 @media screen and (max-width: 575px) {
